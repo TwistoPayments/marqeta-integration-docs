@@ -1,0 +1,126 @@
+# Card docs
+
+## Components
+
+- [Marqeta integration](marqeta/README.md)
+- Card issuing and management
+  - [Card Products](marqeta/guides/card_products.md)
+  - Google/Apple pay
+  - Installment cards
+  - In-store payment
+  - [Card details](marqeta/card_details.md)
+  - Pin change
+- Transaction Processing
+  - JIT authorization
+  - Webhooks
+    - Authorization
+    - Clearings
+    - Refunds
+  - [Decline rules](marqeta/guides/decline_rules.md)
+  - [Clearing files](marqeta/clearing_files.md)
+- [3DS - strong customer authentication (SCA)](marqeta/3ds_authentication.md)
+  - JIT decisioning
+  - Push notifications
+- PCI Proxy integration
+- Mastercard exchange rates
+- [CardProxy](marqeta/cardproxy.md)
+
+## Card functionality
+
+The whole card functionality can be split into 3 parts.
+
+### Card issuing and management
+
+Creating cards for new customers,
+letting customers lock, unlock, cancel their cards and request new ones.
+
+### 3DS authentication
+
+Completing the strong customer authentication (SCA) before certain card transactions.
+
+### Transaction processing
+
+Authorizing and processing card transactions.
+Authorization is the process where we decide if a certain transaction should or should not come through.
+Processing is what we do after authorization,
+we might need to create an invoice for the transaction,
+send a push notification and/or other actions.
+
+---
+
+# 👴 Possibly outdated info, will be refactored:
+
+## Online transactions
+
+### Authorization (preauthorization)
+
+- first transaction in payment lifecycle
+- other form of authorization can be preauthorization but that's not distinguish in our backend
+- receiving `1 - n`, the latest (pre)authorization sets final amount (and original amount)
+- every authorization has to be confirmed in clearing process otherwise will expire in 7 days on our and WD side
+
+##### Rozpoznavaci znaky
+
+- field `authorization_type` (== Status v IEF notifikaci) ma hodnotu `ACCEPTED`
+- field `booking_type` je nevyplneny
+- v IEF prijde v eventu `CardUsage`
+- `authorization_id` v IEF notifikaci je v `Transaction.CustomField` pod klicem `WdpTranId`
+- obsahuje merchant data vcetne `AcquirerId`, `TerminalId`, `Mcc`
+- obsahuje referenci na kartu v `User.CustomField`
+
+### Reversal
+
+- podtyp autorizacni transakce
+- muze jich prijit `n`, vysledna cena blokovane castky na karte je rovna `posledni autorizace - sum(reversal transakce)`
+- pokud prijde reversal transakce, ktera je rovna vysi castky autorizace, mela by byt oznacena jako zrusena - jiz neprijde v clearingu
+
+##### Rozpoznavaci znaky
+
+- field `authorization_type` (== Status v IEF notifikaci) ma hodnotu `REVERSED`
+
+### Rejected
+
+- neprijde vubec v zadne notifikaci (IEF), muzeme ji detekovat pouze tak, ze nam ji vrati search transactions API call, proto ji nesyncujeme (nema vliv na limit)
+
+### Expired
+
+- nastavujeme si sami - neprijde v zadne notifikaci (IEF), expirujeme na zaklade pravidla `transaction_date + timedelta(days=7)`
+
+### Clearing
+
+- konecny proces dokonceni transakce, po clearingu se jiz nemuze transakce zrusit, zmenit, je v konecnem zamcenem stavu
+- muze byt DEBIT nebo CREDIT => DEBIT znaci typicky scenar card usage, CREDIT je pripad, kdy je transakce provedena smerem na kartu, napr vyhra v pokeru, ktera dobije kartu o nejakou castku
+
+##### Rozpoznavaci znaky
+
+- field `booking_type` je vyplneny (muze nabyvat asi 40ti hodnot definovanych v IEF doc)
+- v IEF prijde v eventu `Clearing`
+- v IEF je `credit_type` v `Transaction.CustomField`, v API je potreba volat Transaction Lite call
+- obsahuje neuplna merchant data v `Transaction.CustomField` (name, city, country)
+
+### Priklady zivotnich cyklu transakci
+
+- Autorizace, Clearing (Dokoncena)
+- Pre-autorizace, Autorizace (Expirovana => neprisla v clearingu)
+- Autorizace Expirace (Expirovana)
+- Autorizace, Full reversal (Zrusena => auth 1000kc, reversal 1000kc)
+- Autorizace, Partial Reversal, Clearing (Dokoncena => auth 1000kc, reversal 200kc, vyse 800kc pak potvrzena v clearingu)
+- Autorizace, Partial Reversal, Expirace (Expirovana => auth 1000kc, reversal 100kc, expirovana pomoci EXPIRED transakce)
+- Pre-autorizace, Autorizace, Clearing (Dokoncena)
+- Pre-autorizace, Autorizace, Partial Reversal, Partial Reversal (Expirovana => pre auth 1000kc, auth 900kc, reverse 100 + 100, neprisla v clearingu)
+- Clearing - offline transakce - kreditní i debetní (Dokoncena)
+
+## Transkace a faktury
+
+1. pri prvni transakci ((pre) autorizace) vytvorime invoice (zustane neaktivovana)
+2. pri dalsich transakci typu `authorization` a `reversal` upravujeme cenu faktury
+3. pokud se stane, ze bude platit `posledni autorizace - sum(reversal) = 0`, pak invoice stornujeme (neprijde ani v clearingu)
+4. pokud se stane, ze neprijde clearing do `7*24` hodin, pak ji stornujeme a posledni transakci oznacime za expirovanou (pomoci AuthorizationExpirationTask)
+5. jakmile prijde clearing (typ debit), fakturu aktivujeme a updatujeme castku - v clearingu muze prijit jina castka nez v autorizaci
+
+- pozn. jednotlive transakce, ktere se vazou k jedne platbe, jsou spojene stejnym `authorization_id`
+
+#### INFO
+
+- authorization_type byl rozsireni o typ EXPIRED, puvodni date_expired nestacilo, protoze by se tezko rozlisovaly pripady
+  kdy by byla transakce expirovana z nejakeho jineho stavu a kdy by byla vvytvorena jako expirovana
