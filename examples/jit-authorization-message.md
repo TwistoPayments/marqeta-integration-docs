@@ -109,14 +109,14 @@
         "card": {"last_four": "6491", "metadata": {}},
         "issuer_received_time": "2019-09-18T15:14:04.897Z",
         "issuer_payment_node": "fe6490cce8e8c7737a47db423bfb9831",
-        "card_acceptor": {
-            "mid": "009772089",
-            "mcc": "7994",
-            "name": "STEAMGAMES.COM",
-            "city": "425-952-2985",
+        "card_acceptor": {  # Used
+            "mid": "009772089",  # Used
+            "mcc": "7994",  # Used
+            "name": "STEAMGAMES.COM",  # Used
+            "city": "425-952-2985",  # Used
             "state": "GBR",
             "postal_code": "SW19 2RR",
-            "country_code": "GBR"
+            "country_code": "GBR"  # Used
         },
         "pos": {  # Used
             "pan_entry_mode": "OTHER",  # Used
