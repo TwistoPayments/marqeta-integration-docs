@@ -1,8 +1,7 @@
 # Marqeta
 
 [Marqeta](https://www.marqeta.com) is a card issuer-processor which will issue cards
-for our Polish customers and work alongside Wirecard (supporting our Czech operations) and
-then in the next stage will finally replace Wirecard altogether. It's biggest advantage is
+for our customers. It's biggest advantage is
 [Just-in-Time (JIT) funding](https://www.marqeta.com/platform/jit-funding) feature giving us
 real-time control over the approval of customers transactions.
 
