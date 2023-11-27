@@ -276,7 +276,7 @@ For security reasons we fetch the resource from marqeta using respective GET end
 to process the changed resource. The resource is fetched using the token from the webhook event.
 - Doc: https://www.marqeta.com/docs/core-api/webhooks
 - Event-types: https://www.marqeta.com/docs/core-api/event-types
-- Endpoint: `api.<twisto_main>/marqeta/<secret>/webhook/transactions`
+- Endpoint: `<twisto_main_app>/marqeta/<secret>/webhook/transactions`
     - All webhooks go to this endpoint, even non transaction related ones. The event itself is specified as first key in the data.
     - `https://api.<test_server_name>.ts.twisto.wtf/marqeta/_/webhook/transactions` for testservers
 - Authorization - Basic authorization header
@@ -349,7 +349,7 @@ to process the changed resource. The resource is fetched using the token from th
 ### Just in time authorization
 - Doc: https://www.marqeta.com/docs/core-api/gateway-jit-funding-messages#_jit_funding_requests
 - Action: POST
-- Endpoint: `<twisto_proxy>/jit/` -> `<twisto_main>/marqeta/<secret>/jit/`
+- Endpoint: `<twisto_proxy>/jit/` -> `<twisto_main_app>/marqeta/<secret>/jit/`
 - [Example request](./examples/jit-authorization-message.md)
 - Response
   - Authorized - 200 OK
@@ -367,11 +367,11 @@ to process the changed resource. The resource is fetched using the token from th
 
 ### Just In Time Decision
 - Doc: https://www.marqeta.com/docs/core-api/3ds#_delegate_decisioning_determine_whether_to_send_an_sca
-- Endpoint: `<twisto_cardproxy>/jit/three-ds/decision` -> `<twisto_main>/marqeta/<secret>/jit/three-ds/authentication-decision/`
+- Endpoint: `<twisto_cardproxy>/jit/three-ds/decision` -> `<twisto_main_app>/marqeta/<secret>/jit/three-ds/authentication-decision/`
 
 ### Challenge request
 - Doc: https://www.marqeta.com/docs/core-api/3ds#_receive_an_advanced_authentication_challenge
-- Endpoint: `<twisto_main>//three-ds/authentication/`
+- Endpoint: `<twisto_main_app>/three-ds/authentication/`
 - The endpoint name is misleading but it is according to MQ doc - should be called challenge-request
 
 
@@ -385,4 +385,4 @@ Send a authentication challenge result to Marqeta (misleading endpoint name)
 
 ### Final authentication result
 - Doc: https://www.marqeta.com/docs/core-api/3ds#_notify_a_3ds_completion_status
-- Endpoint: <twisto_main>/three-ds/authentication-result/
+- Endpoint: <twisto_main_app>/three-ds/authentication-result/
