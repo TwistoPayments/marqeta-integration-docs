@@ -345,7 +345,18 @@ to process the changed resource. The resource is fetched using the token from th
 - Doc: https://www.marqeta.com/docs/core-api/gateway-jit-funding-messages#_jit_funding_requests
 - Action: POST
 - Endpoint: `<twisto_proxy>/jit/` -> `<twisto_main>/marqeta/<secret>/jit/`
-- [Example](./examples/jit-authorization-message.md)
+- [Example request](./examples/jit-authorization-message.md)
+- Response
+  - Authorized - 200 OK
+  - Declined - 402
+```
+    {
+      "jit_funding: {
+        "declined_reason": 1,
+        ...
+      }
+    }
+```
 
 ## Strong Customer Authentication (SCA/3DS)
 
