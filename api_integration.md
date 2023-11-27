@@ -332,7 +332,8 @@ to process the changed resource. The resource is fetched using the token from th
   {
     "transactions": [
         {
-            "token": "36d04781-d34f-4e0c-b895-2f1af976b565"
+            "token": "36d04781-d34f-4e0c-b895-2f1af976b565",
+            ...
         }
     ]
   }
