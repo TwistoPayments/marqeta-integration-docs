@@ -351,7 +351,7 @@ to process the changed resource. The resource is fetched using the token from th
   - Declined - 402
     ```json
     {
-      "jit_funding: {
+      "jit_funding": {
         "declined_reason": 1,
         ...
       }
