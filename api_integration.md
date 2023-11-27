@@ -42,7 +42,6 @@
 {
   "first_name": "Jane",
   "last_name": "Doe",
-  "token": "my_user_01",
   "address1": "1234 Grove Street",
   "city": "Prague",
   "state": "CZE",
