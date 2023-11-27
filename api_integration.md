@@ -277,6 +277,8 @@ to process the changed resource. The resource is fetched using the token from th
 - Event-types: https://www.marqeta.com/docs/core-api/event-types
 - Endpoint: `<twisto_main>/marqeta/<secret>/webhook/transactions`
     - All webhooks go to this endpoint, even non transaction related ones. The event itself is specified as first key in the data.
+- Authorization - Basic (username:password encoded in base64)
+    - `Authorization: Basic Og==` (empty authorization) can be used for testservers
 
 #### User transitions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_account_holder_transition_events
