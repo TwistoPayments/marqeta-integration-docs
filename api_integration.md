@@ -11,7 +11,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/users#postUsers
 - Action: POST
 - Endpoint: `/users`
-- Example:
+- Example request:
 ```json
 {
   "token": "<unique_user_id>",
@@ -37,7 +37,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/users#putUsersToken
 - Action: PUT
 - Endpoint: `/users/{token}`
-- Example:
+- Example request:
 ```json
 {
   "first_name": "Jane",
@@ -68,7 +68,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/user-transitions#postUsertransitions
 - Action: POST
 - Endpoint: `/usertransitions`
-- Example:
+- Example request:
 ```json
 {
     "user_token": "1234363",
@@ -94,7 +94,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/cards#postCards
 - Action: POST
 - Endpoint: `/cards`
-- Example:
+- Example request:
 ```json
 {
     "token": "52329nbu53fn3092f3f",
@@ -125,7 +125,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/cards#getCardsToken
 - Action: GET
 - Endpoint: `/cards/{token}`
-- Used fields:
+- Example request:
 ```json
 {
   "token": "mytestcard01",
@@ -146,7 +146,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/card-transitions#postCardtransitions
 - Action: POST
 - Endpoint: `/cardtransitions`
-- Example:
+- Example request:
 ```json
 {
     "card_token": "4235235098nfsa",
@@ -181,7 +181,7 @@
 - Doc: https://www.marqeta.com/docs/core-api/digital-wallets-management#getDigitalwallettokensToken
 - Action: GET
 - Endpoint: `/digitalwallettokens/{token}`
-- Used Fields:
+- Example response:
 ```json
 {
   "token": "my_token_0000",
