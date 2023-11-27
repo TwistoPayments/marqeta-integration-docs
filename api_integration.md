@@ -349,14 +349,14 @@ to process the changed resource. The resource is fetched using the token from th
 - Response
   - Authorized - 200 OK
   - Declined - 402
-```
+    ```json
     {
       "jit_funding: {
         "declined_reason": 1,
         ...
       }
     }
-```
+    ```
 
 ## Strong Customer Authentication (SCA/3DS)
 
