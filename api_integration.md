@@ -14,6 +14,7 @@
 - Example:
 ```json
 {
+  "token": "<unique_user_id>",
   "first_name": "Jane",
   "last_name": "Doe",
   "address1": "1234 Grove Street",
