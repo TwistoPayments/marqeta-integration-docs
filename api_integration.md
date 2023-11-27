@@ -276,20 +276,69 @@ to process the changed resource. The resource is fetched using the token from th
 - Doc: https://www.marqeta.com/docs/core-api/webhooks
 - Event-types: https://www.marqeta.com/docs/core-api/event-types
 - Endpoint: `<twisto_main>/marqeta/<secret>/webhook/transactions`
+    - All webhooks go to this endpoint, even non transaction related ones. The event itself is specified as first key in the data.
 
-#### User transitions
+#### User transitions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_account_holder_transition_events
 - Related data - Retrieve User
+- Request example:
+```json
+{
+  "usertransitions": [
+    {
+      "token": "90f93e95-e03a-4fe3-baeb-0cde1e9db665",
+      ...
+    }
+  ]
+}
+```
 #### Cards transitions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_card_transition_events
 - Related data - Retrieve Card
-#### Digital wallet transactions event
+- Request exapmle:
+```json
+{
+  "cards": [
+      {
+          "card_token": "my_card_token",
+          ...
+      }
+  ]
+}
+```
+#### Digital wallet transitions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_digital_wallet_token_transition_events
 - Related data - Retrieve Digital wallet token
+- Request example:
+```json
+{
+  "digitalwallettokentransitions": [
+    {
+      "digital_wallet_token": {
+        "token": "my_digital_wallet_token4321"
+      },
+      ...
+    }
+  ]
+}
+```
 
 #### Transactions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_transaction_events
 - Related data - Retrieve transaction
+
+- Request example:
+  ```json
+  {
+    "transactions": [
+        {
+            "token": "36d04781-d34f-4e0c-b895-2f1af976b565"
+        }
+    ]
+  }
+  ```
+  
+
 
 ### Just in time authorization
 - Doc: https://www.marqeta.com/docs/core-api/gateway-jit-funding-messages#_jit_funding_requests
