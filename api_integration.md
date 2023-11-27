@@ -4,7 +4,7 @@
 - Marqeta sandbox URL: `https://twisto-dev.marqeta.com/v3/`
 - Twisto testserver mock URL: `https://marqeta.<ts_name>.ts.twisto.wtf`
 - Authorization - Basic (username:password encoded in base64)
-  - e.g. `Authorization: Basic dHdzdF9zYW5kYm94=`
+  - e.g. `Authorization: Basic Og==` for empty credentials
 ### Users
 #### Create user
 - Used in: register_customer
