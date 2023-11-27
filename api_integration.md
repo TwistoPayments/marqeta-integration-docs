@@ -3,7 +3,8 @@
 - Production URL: `https://twisto-api.marqeta.com/v3/`
 - Marqeta sandbox URL: `https://twisto-dev.marqeta.com/v3/`
 - Twisto testserver mock URL: `https://marqeta.<ts_name>.ts.twisto.wtf`
-- Authorization - Basic (username:password encoded in base64)
+- Authorization - Basic authorization header
+  - `username:password` encoded in base64
   - e.g. `Authorization: Basic Og==` for empty credentials
 ### Users
 #### Create user
@@ -275,10 +276,12 @@ For security reasons we fetch the resource from marqeta using respective GET end
 to process the changed resource. The resource is fetched using the token from the webhook event.
 - Doc: https://www.marqeta.com/docs/core-api/webhooks
 - Event-types: https://www.marqeta.com/docs/core-api/event-types
-- Endpoint: `<twisto_main>/marqeta/<secret>/webhook/transactions`
+- Endpoint: `api.<twisto_main>/marqeta/<secret>/webhook/transactions`
     - All webhooks go to this endpoint, even non transaction related ones. The event itself is specified as first key in the data.
-- Authorization - Basic (username:password encoded in base64)
-    - `Authorization: Basic Og==` (empty authorization) can be used for testservers
+    - `https://api.<test_server_name>.ts.twisto.wtf/marqeta/_/webhook/transactions` for testservers
+- Authorization - Basic authorization header
+  - `username:password` encoded in base64
+  - e.g. `Authorization: Basic Og==` for empty credentials (can be used for testservers
 
 #### User transitions events
 - Doc: https://www.marqeta.com/docs/core-api/event-types#_account_holder_transition_events
